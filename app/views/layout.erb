@@ -9,11 +9,20 @@
 
   <title>MyWorld</title>
 
+  <link href="css/bootstrap.min.css" rel="stylesheet">
+
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 
   <link rel="stylesheet" href="/stylesheets/main.css" />
 </head>
 <body>
+  <nav>
+    <% if logged_in? %>
+      <a href="/recommendations/new">New Recommendation</a><br>
+      <a href="/recommendations">All your Recommendations</a><br>
+      <a href="/logout">Log Out</a><br>
+    <% end %>
+  </nav>
   <div class="wrapper">
 
       <%= yield %>
@@ -28,4 +37,5 @@
     <script src="//ajax.googleapis.com/ajax/libs/chrome-frame/1.0.2/CFInstall.min.js"></script>
     <script>window.attachEvent("onload",function(){CFInstall.check({mode:"overlay"})})</script>
   <![endif]-->
+  <script src="js/bootstrap.min.js"></script>
 </body>

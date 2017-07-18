@@ -1,4 +1,13 @@
-<p><%= @recommendation.content %></p>
+<h3>Here is your Recommendation</h3>
+<h4>Location:</h4><p><%= @recommendation.location %></p>
+<h4>Recommendation:</h4><p><%= @recommendation.content %></p>
+<h4>Rating out of 10:</h4><p><%= @recommendation.rating %></p>
+
+<form action="/recommendations/<%= @recommendation.id %>/edit">
+	<input type="submit" value="Edit Recommendation">
+</form>
+
+<br>
 
 <form action="/recommendations/<%= @recommendation.id %>/delete" method="POST">
   <input type="hidden" id="hidden" name="_method" value="DELETE">

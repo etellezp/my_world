@@ -1,4 +1,5 @@
 class RecommendationsController < ApplicationController
+
   get '/recommendations' do
     if logged_in?
       @recommendations = Recommendation.all
