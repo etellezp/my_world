@@ -1,0 +1,9 @@
+<h3>Happy to see you again <%= current_traveler.username %></h3>
+
+<h4>Here are your recommendations</h4>
+
+<% @recommendations.each do |recommendation| %>
+  <p>Location: <%= recommendation.location %></p>
+  <p>Content: <%= recommendation.content %></p>
+  <p>rating: <%= recommendation.rating %></p>
+<% end %>

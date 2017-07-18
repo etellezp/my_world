@@ -1,0 +1,6 @@
+<p><%= @recommendation.content %></p>
+
+<form action="/recommendations/<%= @recommendation.id %>/delete" method="POST">
+  <input type="hidden" id="hidden" name="_method" value="DELETE">
+  <input type="submit" value="Delete Recommendation">
+</form>

@@ -1,0 +1,15 @@
+<h3>Edit your Recommendation</h3>
+
+<form action="/recommendations/<%= @recommendation.id %>" method="POST">
+  <input type="hidden" name="_method" value="PATCH" id="hidden">
+  <label for="location">Location</label>
+  <input type="text" id="location" name="location" value="<%= @recommendation.location %>">
+  <br>
+  <label for="content">Content</label>
+  <input type="text" id="content" name="content" value="<%= @recommendation.content %>">
+  <br>
+  <label for="rating">Rating</label>
+  <input type="text" id="rating" name="rating" value="<%= @recommendation.rating %>">
+  <br>
+  <input type="submit" value="Edit Recommendation">
+</form>
