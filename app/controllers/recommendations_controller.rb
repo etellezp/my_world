@@ -64,6 +64,7 @@ class RecommendationsController < ApplicationController
       recommendation = current_traveler.recommendations.find_by(params[:id])
       if recommendation
         recommendation.delete
+        session.clear 
         redirect to '/recommendations'
       else
         redirect to '/recommendations'
