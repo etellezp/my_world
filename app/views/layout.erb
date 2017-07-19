@@ -25,6 +25,10 @@
   </nav>
   <div class="wrapper">
 
+    <% if flash[:notice] %>
+      <h1><%= flash[:notice] %></h1>
+    <% end %>
+
       <%= yield %>
 
     <footer class="branding">

@@ -5,6 +5,7 @@ class RecommendationsController < ApplicationController
       @recommendations = Recommendation.all
       erb :'recommendations/recommendations'
     else
+      flash[:notice] = 'Please log in first.'
       redirect to '/login'
     end
   end
@@ -41,6 +42,7 @@ class RecommendationsController < ApplicationController
       if @recommendation
         erb :'recommendations/edit_recommendation'
       else
+        flash[:notice] = "You can only edit your recommendations"
         redirect to '/recommendations'
       end
     end
@@ -48,6 +50,7 @@ class RecommendationsController < ApplicationController
 
   patch '/recommendations/:id' do
     if params[:location] == "" || params[:content] == "" || params[:rating] == ""
+      flash[:notice] = "All fields are required"
       redirect to "/recommendations/#{params[:id]}/edit"
     else
       @recommendation = Recommendation.find_by_id(params[:id])
@@ -64,9 +67,9 @@ class RecommendationsController < ApplicationController
       recommendation = current_traveler.recommendations.find_by(params[:id])
       if recommendation
         recommendation.delete
-        session.clear 
         redirect to '/recommendations'
       else
+        flash[:notice] = "You can only delete your recommendations"
         redirect to '/recommendations'
       end
     end
