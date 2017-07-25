@@ -77,4 +77,5 @@ class RecommendationsController < ApplicationController
       end
     end
   end
+  
 end
