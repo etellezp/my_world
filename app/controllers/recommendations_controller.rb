@@ -19,18 +19,21 @@ class RecommendationsController < ApplicationController
   end
 
   post '/recommendations' do
-    if params[:location] == "" || params[:content] == "" || params[:rating] == ""
-      redirect to '/recommendations/new'
-    else
-      @recommendation = current_traveler.recommendations.create(params)
+    @recommendation = current_traveler.recommendations.build(params)
+    if @recommendation.save
       redirect to "/recommendations/#{@recommendation.id}"
+    else
+      erb :'recommendations/create_recommendation'
     end
   end
 
   get '/recommendations/:id' do
     if logged_in?
-      @recommendation = Recommendation.find_by_id(params[:id])
-      erb :'recommendations/show_recommendation'
+      if @recommendation = Recommendation.find_by(id: params[:id])
+        erb :'recommendations/show_recommendation'
+      else
+        redirect '/recommendations' # or some 404 page
+      end
     else
       redirect to '/login'
     end
@@ -38,41 +41,40 @@ class RecommendationsController < ApplicationController
 
   get '/recommendations/:id/edit' do
     if logged_in?
-      @recommendation = current_traveler.recommendations.find_by(id: params[:id])
-      if @recommendation
+      if @recommendation = current_traveler.recommendations.find_by(id: params[:id])
         erb :'recommendations/edit_recommendation'
       else
         flash[:notice] = "You can only edit your recommendations"
         redirect to '/recommendations'
       end
+    else
+      redirect to '/login'
     end
   end
 
   patch '/recommendations/:id' do
-    if params[:location] == "" || params[:content] == "" || params[:rating] == ""
-      flash[:notice] = "All fields are required"
-      redirect to "/recommendations/#{params[:id]}/edit"
+    @recommendation = current_traveler.recommendations.find_by(id: params[:id])
+    if @recommendation
+      if @recommendation.update(params)
+        redirect to "/recommendations/#{@recommendation.id}"
+      else
+        erb :'recommendations/edit_recommendation'
+      end
     else
-      @recommendation = Recommendation.find_by_id(params[:id])
-      @recommendation.location = params[:location]
-      @recommendation.content = params[:content]
-      @recommendation.rating = params[:rating]
-      @recommendation.save
-      redirect to "/recommendations/#{@recommendation.id}"
+      flash[:notice] = "You can only edit your recommendations"
+      redirect to '/recommendations'
     end
   end
 
   delete '/recommendations/:id/delete' do
     if logged_in?
-      recommendation = current_traveler.recommendations.find_by(params[:id])
-      if recommendation
+      if recommendation = current_traveler.recommendations.find_by(params[:id]) &&
         recommendation.delete
-        redirect to '/recommendations'
+          redirect to '/recommendations'
       else
         flash[:notice] = "You can only delete your recommendations"
         redirect to '/recommendations'
       end
     end
   end
-
 end

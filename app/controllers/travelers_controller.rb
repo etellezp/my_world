@@ -8,15 +8,21 @@ class TravelersController < ApplicationController
     end
   end
 
+  # view
+    # -> USer click on "signup"
+    # -> Sends "POST" reuqest with HTTP URL of "/signup" to the server
+    # -> The server than parses the request through its middle ware (Rack)
+    # -> It passes the request to the sinatra code
+    # -> Sinatra route matches
+
   post '/signup' do
-    if params[:username] == "" || params[:email] == "" || params[:password] == ""
-      redirect to '/signup'
-    else
       @traveler = Traveler.new(username: params[:username], email: params[:email], password: params[:password])
-      @traveler.save
-      session[:traveler_id] = @traveler.id
-      redirect to '/recommendations'
-    end
+      if @traveler.save
+        session[:traveler_id] = @traveler.id
+        redirect to '/recommendations'
+      else
+        erb :'travelers/create_traveler'
+      end
   end
 
   get '/login' do
